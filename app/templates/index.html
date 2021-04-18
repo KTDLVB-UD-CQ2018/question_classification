@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Question Classification</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– 
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css"> -->
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="static/css/normalize.css">
+  <link rel="stylesheet" href="static/css/skeleton.css">
+  <link rel="stylesheet" href="static/css/custom.css">
+
+
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+  <link rel="stylesheet" href="static/css/github-prettify-theme.css">
+  <script type="text/javascript">// <![CDATA[
+    function loading() {
+      $("#loading").show();
+      $("#content").hide();
+    }
+  // ]]></script>
+
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+
+<body>
+
+  <div class="docs-section" id="intro">
+
+    <div class="container">
+      <form action="{{ url_for('predict')}}" method="post">
+        <div class="row">
+          <h6 class="docs-header">Question Classification</h6>
+          <p> Ấn Generate để chọn một câu hỏi ngẫu nhiên (hoặc tự nhập tiêu đề, max 160 từ), sau đó dùng các nút để chọn
+            mô hình dự đoán thể loại câu hỏi.</p>
+          <input type="submit" class="button-primary" name="submit_button" value="Generate">
+        </div>
+        <textarea rows="6" class="u-full-width" name="text" maxlength="160" placeholder="Nhập nội dung cần dự đoán"
+          id="news">{{news}}</textarea>
+        <div class="row">
+          <div class="four columns">
+            <div id="loading"></div>
+            <div id="content">
+              <input type="submit" name="submit_button" value="Multinomial Naive Bayes" onclick="loading();">
+            </div>
+          </div>
+          <div class="four columns">
+            <div id="loading"></div>
+            <div id="content">
+              <input type="submit" name="submit_button" value="Support Vector Machine" onclick="loading();">
+            </div>
+          </div>
+          <div class="four columns">
+            <div id="loading"></div>
+            <div id="content">
+              <input type="submit" name="submit_button" value="Linear Regression" onclick="loading();">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns">
+            <div id="loading"></div>
+            <div id="content">
+              <input type="submit" name="submit_button" value="Clear">
+            </div>
+          </div>
+        </div>
+
+        <ul>
+          <li>Top 3 dự đoán của mô hình:
+            <ul>
+              {% for key, value in prediction.items() %}
+              <li>{{ key }} : {{ value }}</li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li>Chủ đề thực của câu hỏi: {{real}}</li>
+        </ul>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
